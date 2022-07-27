@@ -1,5 +1,14 @@
+const {readDataFromJson , writeDataToFile} = require("./notes")
+
 const chalk = require("chalk") 
 const yargs = require("yargs")
+
+
+const notesFilePath = "./notes.json" 
+
+
+
+
 
 yargs.command({
     command: "add" ,
@@ -19,6 +28,19 @@ yargs.command({
     handler: (argv) => {
         console.log("Title : " , argv.title) 
         console.log("Description : " , argv.body) ;
+        const book = {
+            title: argv.title ,
+            body: argv.body
+        }
+        let res = readDataFromJson(notesFilePath) ;
+        console.log(res) ;
+        if(!res.error){
+            const fileData = res.data
+            fileData.push(book) ;
+            writeDataToFile(notesFilePath , fileData) ;
+        }else{
+            console.log(res.message) 
+        }
     }
 })
 
