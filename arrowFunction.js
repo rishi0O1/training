@@ -20,4 +20,18 @@ const party3 = {
     }
 }
 
-party3.celebration() 
+const party4 = {
+    name: "birthday party" ,
+    guestList: ["me" , "my" , "maggie"] ,
+    celebration() {
+        console.log(this.name)
+        this.guestList.forEach(function (guest){                // it has its own this as stated above
+            console.log(guest + " is attending " + this.name)
+        })
+        this.guestList.forEach((guest) => {                     // since arrow function dont bind to the object i.e has own function this
+            console.log(guest + " is attending " + this.name)  // this points to the party4 object 
+        })
+    }
+}
+
+party4.celebration() 
