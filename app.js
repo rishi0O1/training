@@ -1,4 +1,4 @@
-const {readDataFromJson , writeDataToFile} = require("./notes")
+const {readDataFromJson , writeDataToFile , removeNotes} = require("./notes")
 
 const chalk = require("chalk") 
 const yargs = require("yargs")
@@ -50,11 +50,14 @@ yargs.command({
     description: "remove new note" ,
     builder: {
         title: {
-            description: "this is title "
+            description: "enter title in string format" ,
+            demandOption: true ,
+            type: "string"
         }
     },
     handler: (argv) => {
         console.log("remove notes from the list")
+        removeNotes(argv.title , notesFilePath)
     }
 })
 

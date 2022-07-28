@@ -1,5 +1,18 @@
 const fs = require("fs")
 
+const removeNotes = function(title , path){
+    console.log(title) 
+    const res = readDataFromJson(path)
+    if(res.error){
+        console.log("unable to read file")
+        return
+    }
+    const filterData = res.data.filter((note) => {
+        return note.title !== title
+    })
+    writeDataToFile(path , filterData)
+}
+
 const readDataFromJson = (path) => {
     console.log(path) ;
     const notesData = fs.readFileSync(path , {encoding: "ascii"}) 
@@ -24,5 +37,6 @@ const writeDataToFile = (path , jsonData) => {
 
 module.exports = {
     readDataFromJson ,
-    writeDataToFile
+    writeDataToFile ,
+    removeNotes 
 } ;
