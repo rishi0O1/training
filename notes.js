@@ -35,8 +35,20 @@ const writeDataToFile = (path , jsonData) => {
     fs.writeFileSync(path , JSON.stringify(jsonData))
 }
 
+const listNotes = (path) => {
+    const res = readDataFromJson(path)
+    if(res.error){
+        console.log("error while reading the file")
+        return 
+    }
+    res.data.forEach((note) => {
+        console.log(note) 
+    }); 
+}
+
 module.exports = {
     readDataFromJson ,
     writeDataToFile ,
-    removeNotes 
+    removeNotes ,
+    listNotes
 } ;

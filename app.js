@@ -1,14 +1,10 @@
-const {readDataFromJson , writeDataToFile , removeNotes} = require("./notes")
+const {readDataFromJson , writeDataToFile , removeNotes , listNotes} = require("./notes")
 
 const chalk = require("chalk") 
 const yargs = require("yargs")
 
 
 const notesFilePath = "./notes.json" 
-
-
-
-
 
 yargs.command({
     command: "add" ,
@@ -70,8 +66,8 @@ yargs.command({
             description: "list all the notes"
         }
     },
-    handler: (argv) => {
-        console.log("list functionality called !!")
+    handler: () => {
+        listNotes(notesFilePath)
     }
 })
 
