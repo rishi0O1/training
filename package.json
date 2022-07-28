@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/rishi0O1/training/issues"
   },
-  "homepage": "https://github.com/rishi0O1/training#readme"
+  "homepage": "https://github.com/rishi0O1/training#readme",
+  "dependencies": {
+    "postman-request": "^2.88.1-postman.31"
+  }
 }
