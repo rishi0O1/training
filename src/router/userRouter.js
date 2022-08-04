@@ -78,7 +78,16 @@ router.get("/user/:id" , (req , res) => {
     })
 })
 
-
+router.post("/user/login" , async (req , res) => {
+    ( {email , password} = req.body ) ;
+    try{
+        const user = await User.findByCredentials(email , password) ;
+    }catch(e){
+        res.status(500).json({
+            message: "incorrect creadentials " + e
+        })
+    }
+})
 
 
 module.exports = router ;
