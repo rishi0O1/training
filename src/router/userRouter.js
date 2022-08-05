@@ -79,7 +79,7 @@ router.get("/user/:id" , (req , res) => {
 })
 
 router.post("/user/login" , async (req , res) => {
-    ( {email , password} = req.body ) ;
+    const {email , password} = req.body  ;
     try{
         const user = await User.findByCredentials(email , password) ;
     }catch(e){
