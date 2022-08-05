@@ -1,0 +1,2 @@
+// A closure is the combination of a function and the lexical environment
+// Closures can close over imported values as well, which are regarded as live bindings, because when the original value changes, the imported one changes accordingly.
