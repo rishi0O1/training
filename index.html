@@ -78,6 +78,8 @@
             console.log(result) ;
             country = Object.keys({...result.symbols}) ;
             localStorage.setItem("country",  JSON.stringify(country));
+            countryPopulator("fromCountry") ;
+            countryPopulator("toCountry") ;
         })
         .catch(error => console.log('error', error));
     }
