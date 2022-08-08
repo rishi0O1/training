@@ -1,0 +1,2 @@
+- dependency injection is single ton design pattern i.e if already object of service is available the we that object for the service
+- 
