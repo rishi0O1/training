@@ -1,11 +1,13 @@
 const express = require("express") ;
 const router = express.Router() ;
 const User = require("../db/models/User") ;
+const auth = require("../middleware/auth") ;
 
 router.post("/users" , async (req , res) => {
     const newUser = new User({ ...req.body }) ;
     try{
-        await newUser.save() ;
+        // await newUser.save() ;
+        const token = await newUser.generateToken() ;
         res.status(201).json({
             "message": "new user created with email : "+req.body.email ,
         })
@@ -27,9 +29,27 @@ router.post("/users" , async (req , res) => {
     
 })
 
-router.get("/users" , (req , res) => {
-    User.find({}).then((data) => {
-        res.status(200).json(data) ;
+router.post("/user/logout/" , auth , (req , res) => {
+    try{
+        console.log(req.user) ;
+        req.user = req.user.filter((token) => {
+            return token !== req.token ;
+        })
+
+        res.send({
+            message: "logged Out !" ,
+        })
+    } catch(e) {
+        res.status(400).send({
+            "message": "unable to logout" + e ,
+        })
+    }
+
+})
+
+router.get("/users" , auth , (req , res) => {
+    User.find({}).then((user) => {
+        res.status(200).json(user) ;
     }).catch((e) => {
         res.status(500).json({
             message: e ,
@@ -82,6 +102,10 @@ router.post("/user/login" , async (req , res) => {
     const {email , password} = req.body  ;
     try{
         const user = await User.findByCredentials(email , password) ;
+        const token = await user.generateToken() ;  // user specific 
+        res.send({
+            user , token
+        })
     }catch(e){
         res.status(500).json({
             message: "incorrect creadentials " + e

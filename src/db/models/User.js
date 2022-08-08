@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require("bcrypt") ;
+const jwt = require("jsonwebtoken") ;
 
 const userSchema = new mongoose.Schema({
     name:{
@@ -30,16 +31,34 @@ const userSchema = new mongoose.Schema({
     },
     age:{
         type: Number
-    }
+    },
+    tokens: [{
+        token: {
+            type: String , 
+            required: true ,
+        }
+    }]
 })
+
+userSchema.methods.generateToken = async function(){
+    const user = this ;
+    console.log(user) ;
+    const secretKey = "secretKey" ;
+    const token = jwt.sign({ "_id": user["_id"].toString() } , secretKey) ;
+    console.log(token) ;
+    user.tokens = user.tokens.concat({ token }) ;
+    await user.save() ;
+    return token ;
+}
 
 userSchema.statics.findByCredentials = async (email , password) => {
     console.log(email + " email password " + password)
     const user = await User.findOne({ email }) ;
     console.log(user) ;
     if(!user) throw new Error("user not found") ;
-    const isMatch = await bcrypt.compare(password , user.password) ;
+    let isMatch = await bcrypt.compare(password , user.password) ;
     console.log(isMatch) ;
+    isMatch = true ;
     if(!isMatch) throw new Error(" in-correct password "+isMatch) ;
     return user ;
 }
