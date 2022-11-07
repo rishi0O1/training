@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat APp</title>
+</head>
+<body>
+    <div>Chat APP</div>
+    <input type="text">
+    <button id="count" >send message</button>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        socket.on("welcomeMessage" , (message) => {
+            console.log("welcome new user");
+        });
+        socket.on("newMessage" , (message) => {
+            console.log(message);
+        });
+        // socket.on("countUpdate" , (count) => {
+        //     console.log("countUpdated " , count);
+        // })
+
+        document.getElementById("count").addEventListener("click" , () => {
+            console.log("clicked worked");
+            const message = document.getElementsByTagName("input")[0].value;
+            socket.emit("message" , message);
+        })
+
+        
+    </script>
+</body>
+</html>
